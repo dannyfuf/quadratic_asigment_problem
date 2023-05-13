@@ -1,0 +1,7 @@
+
+class ForwardChecking {
+  public:
+
+  private:
+  
+}
