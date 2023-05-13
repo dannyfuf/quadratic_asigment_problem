@@ -1,0 +1,9 @@
+# Ignore all binaries and object files
+*.o
+*.obj
+*.exe
+*.dll
+*.a
+*.so
+*.dylib
+main
