@@ -30,10 +30,34 @@ void Matrix::print() {
   }
 }
 
+// getters
+int Matrix::getElement(int row, int col) {
+  return matrix[row][col];
+}
+
+int Matrix::getSize() {
+  return rows;
+}
+
+
+// setters
+
+void Matrix::setElement(int row, int col, int value) {
+  matrix[row][col] = value;
+}
+
 void Matrix::setMatrix(MM matrix) {
   this->matrix = matrix;
 }
 
-int Matrix::getElement(int row, int col) {
-  return matrix[row][col];
+void Matrix::setZeroMatrix(int row, int col) {
+  MM matrix;
+  for (int i = 0; i < row; i++) {
+    vector<int> row;
+    for (int j = 0; j < col; j++) {
+      row.push_back(0);
+    }
+    matrix.push_back(row);
+  }
+  this->matrix = matrix;
 }

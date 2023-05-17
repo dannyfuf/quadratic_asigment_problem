@@ -1,4 +1,8 @@
-#include <vector>
-#include "../matrix/matrix.h"
+#ifndef READFILES_H
+#define READFILES_H
 
-vector<Matrix> readFile(string filename);
+#include <vector>
+
+vector<Matrix *> readFile(string filename);
+
+#endif //READFILES_H

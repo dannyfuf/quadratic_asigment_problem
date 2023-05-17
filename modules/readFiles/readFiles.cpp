@@ -6,9 +6,9 @@ using namespace std;
 
 #include "../matrix/matrix.h"
 
-Matrix readMatrix(ifstream * file, int n){
-  Matrix matrix(n, n);
-  MM matrixData;
+Matrix * readMatrix(ifstream * file, int n){
+  Matrix * matrix = new Matrix(n, n);
+  M matrixData;
   for(int i = 0; i < n; i++) {
     vector<int> row;
     for(int j = 0; j < n; j++) {
@@ -18,15 +18,15 @@ Matrix readMatrix(ifstream * file, int n){
     }
     matrixData.push_back(row);
   }
-  matrix.setMatrix(matrixData);
+  matrix->setMatrix(matrixData);
   return matrix;
 }
 
-vector<Matrix> readFile(string filename) {
+vector<Matrix *> readFile(string filename) {
   ifstream file (filename);
   string line;
 
-  vector<Matrix> returnMatrices;
+  vector<Matrix *> returnMatrices;
 
   int n = 0;
   if (file.is_open()) {

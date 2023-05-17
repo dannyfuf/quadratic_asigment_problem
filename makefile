@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-std=c++11 -Wall
+CXXFLAGS=-std=c++23 -Wall -fopenmp
 SRCDIR=.
 SRCS=$(shell find $(SRCDIR) -name '*.cpp')
 OBJS=$(SRCS:.cpp=.o)
