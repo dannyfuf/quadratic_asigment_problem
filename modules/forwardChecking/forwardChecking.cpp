@@ -127,6 +127,7 @@ void ForwardChecking::solve(){
   result->cost = 0;
   result->time = 0;
 
+
   vector<int> locations = initializeDomains(size);
   vector<int> resources = initializeDomains(size);
   vector<int> assignment = initializeDomains(size, false);
