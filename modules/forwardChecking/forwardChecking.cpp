@@ -2,6 +2,7 @@
 #include <omp.h>
 #include <vector>
 #include <algorithm>
+#include <thread>
 using namespace std;
 
 #include "forwardChecking.h"
@@ -95,7 +96,7 @@ int countAssigned(vector<int> assigned){
   return count;
 }
 
-vector<int> applyAlgorithm(vector<int> assignment, Matrix* flow, Matrix* distance, vector<int> resources){
+vector<int> applyAlgorithm(vector<int> assignment, Matrix* flow, Matrix* distance, vector<int> resources, vector<vector<int>>& resultsThreads){
   vector<int> remainingLocations = getRemainingLocations(assignment);
   vector<int> availableResources = getAvailableResources(resources, assignment);
   vector<int> currentAssignment(assignment);
@@ -105,17 +106,18 @@ vector<int> applyAlgorithm(vector<int> assignment, Matrix* flow, Matrix* distanc
     return assignment;
   } else {
     int minCost = 999999999;
-    #pragma omp parallel for shared(minCost, best) private(currentAssignment) num_threads(4)
+    #pragma omp parallel for shared(minCost, best, currentAssignment, availableResources, remainingLocations, flow, distance, resources, resultsThreads)
     for(auto i: availableResources){
       vector<int> currentAssignment(assignment);
       currentAssignment[remainingLocations[0]] = i;
-      currentAssignment = applyAlgorithm(currentAssignment, flow, distance, resources);
+      currentAssignment = applyAlgorithm(currentAssignment, flow, distance, resources, resultsThreads);
       int currentCost = computeCost(currentAssignment, flow, distance);
       if(currentCost < minCost){
         minCost = currentCost;
         best = currentAssignment;
       }
     }
+    resultsThreads[assignment[0]] = best;
     return best;
   }
 }
@@ -129,10 +131,29 @@ void ForwardChecking::solve(){
   vector<int> resources = initializeDomains(size);
   vector<int> assignment = initializeDomains(size, false);
 
-  vector<int> res = applyAlgorithm(assignment, flow, distance, resources);
-  int cost = computeCost(res, flow, distance);
-  result->cost = cost;
-  result->assignment = res;
+  vector<vector<int>> resultsThreads(size);
+  vector<thread> threads;
+  threads.reserve(size);
+
+  for(int i = 0; i < size; ++i){
+    assignment[0] = i;
+    threads.emplace_back(applyAlgorithm, assignment, flow, distance, resources, ref(resultsThreads));
+  }
+
+  for(auto& thread: threads){
+    thread.join();
+  }
+
+  int minCost = 999999999;
+  for(auto i: resultsThreads){
+    int currentCost = computeCost(i, flow, distance);
+    if(currentCost < minCost){
+      minCost = currentCost;
+      result->assignment = i;
+    }
+  }
+
+  result->cost = minCost;
   this->result = result;
 }
 
