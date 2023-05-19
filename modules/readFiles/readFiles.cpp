@@ -6,6 +6,7 @@ using namespace std;
 
 #include "../matrix/matrix.h"
 
+// funcion que recibe el cursor de un archivo y lee una matriz de n x n
 Matrix * readMatrix(ifstream * file, int n){
   Matrix * matrix = new Matrix(n, n);
   M matrixData;
@@ -22,6 +23,7 @@ Matrix * readMatrix(ifstream * file, int n){
   return matrix;
 }
 
+// Funcion que lee un archivo de instancia y retorna las matrices de costo y flujo
 vector<Matrix *> readFile(string filename) {
   ifstream file (filename);
   string line;

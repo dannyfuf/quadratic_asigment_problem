@@ -8,22 +8,26 @@ using namespace std;
 #include "forwardChecking.h"
 #include "../matrix/matrix.h"
 
+// constructor
 ForwardChecking::ForwardChecking(int n) {
   this->size = n;
 }
 
+// destructor
 ForwardChecking::~ForwardChecking() {
 }
 
-
+// imprime la matriz de flujo
 void ForwardChecking::printFlowMatrix() {
   flow->print();
 }
 
+// imprime la matriz de distancia
 void ForwardChecking::printDistanceMatrix() {
   distance->print();
 }
 
+// imprime un vector dado
 void printVector(vector<int> vec){
   for(auto i: vec){
     cout << i << " ";
@@ -31,12 +35,14 @@ void printVector(vector<int> vec){
   cout << endl;
 }
 
+// recibe el tiempo de ejecucion e imprime el costo, tiempo y la permutacion asignada
 void ForwardChecking::printResult(double time) {
   cout << result->cost << " " << time << endl;
   cout << size << endl;
   printVector(result->assignment);
 }
 
+// inicializa un vector con numeros de 0 a size-1 o con -1 en cada posicion
 vector<int> initializeDomains(int size, bool range = true ) {
   vector<int> domains;
   for (int i = 0; i < size; i++) {
@@ -49,9 +55,10 @@ vector<int> initializeDomains(int size, bool range = true ) {
   return domains;
 }
 
-vector<int> getAvailableResources(vector<int> locations, vector<int> currentAssignment){
+// funcion que recibe los nombres de los recursos y la asignacion actual y retorna los recursos disponibles
+vector<int> getAvailableResources(vector<int> resources, vector<int> currentAssignment){
   vector<int> availableLocations;
-  for(auto i: locations){
+  for(auto i: resources){
     if(find(currentAssignment.begin(), currentAssignment.end(), i) == currentAssignment.end()){
       availableLocations.push_back(i);
     }
@@ -59,6 +66,7 @@ vector<int> getAvailableResources(vector<int> locations, vector<int> currentAssi
   return availableLocations;
 }
 
+// funcion que recibe la asignacion actual y retorna las ubicaciones que no han sido asignadas
 vector<int> getRemainingLocations(vector<int> currentAssignment){
   vector<int> remainingLocations;
   for(long unsigned int i = 0; i < currentAssignment.size(); i++){
@@ -69,7 +77,7 @@ vector<int> getRemainingLocations(vector<int> currentAssignment){
   return remainingLocations;
 }
 
-
+// funcion que recibe la asignacion actual y retorna el costo de la asignacion
 int computeCost(vector<int> assigned, Matrix* flow, Matrix* distance){
   int cost = 0;
 
@@ -83,6 +91,7 @@ int computeCost(vector<int> assigned, Matrix* flow, Matrix* distance){
   return cost;
 }
 
+// funcion que recibe la asignacion actual y retorna el numero de ubicaciones asignadas
 int countAssigned(vector<int> assigned){
   int count = 0;
   for(auto i: assigned){
@@ -93,6 +102,8 @@ int countAssigned(vector<int> assigned){
   return count;
 }
 
+// funcion que recibe la asignacion actual, un puntero a la matriz de flujo, un puntero a la matriz de distancia, un vector con los recursos disponibles y un vector de vectores con los resultados de cada thread
+// aplica el algoritmo de forward checking y retorna la asignacion con menor costo encontrada, asignada al en el vector de resultados de cada thread
 vector<int> applyAlgorithm(vector<int> assignment, Matrix* flow, Matrix* distance, vector<int> resources, vector<vector<int>>& resultsThreads){
   vector<int> remainingLocations = getRemainingLocations(assignment);
   vector<int> availableResources = getAvailableResources(resources, assignment);
@@ -119,6 +130,7 @@ vector<int> applyAlgorithm(vector<int> assignment, Matrix* flow, Matrix* distanc
   }
 }
 
+// funcion que aplica el algoritmo de forward checking utilizando threads
 void ForwardChecking::solve(){
   Result* result = new Result();
   result->cost = 0;
@@ -155,16 +167,12 @@ void ForwardChecking::solve(){
   this->result = result;
 }
 
+//  funcion que almacena la matriz de flujo
 void ForwardChecking::setFlow(Matrix* flow) {
   this->flow = flow;
 }
 
+// funcion que almacena la matriz de distancia
 void ForwardChecking::setDistance(Matrix* distance) {
   this->distance = distance;
-}
-
-
-// getters
-int ForwardChecking::getCost(int row, int col) {
-  return costMatrix->getElement(row, col);
 }
