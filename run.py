@@ -11,6 +11,7 @@ def readDirectory(directory):
   return os.listdir(pwd + directory)
 
 def runInstance(instance):
+  print(f"Running instance {instance}")
   pwd = os.getcwd()
   path = f"{pwd}{instance}"
 
@@ -21,11 +22,10 @@ def runInstance(instance):
   else:
     print(f"File {path} not found")
 
-def runAllInstances(size):
-  instances = readDirectory(f"/data/{size}")
+def runManyInstances(path):
+  instances = readDirectory(path)
   for instance in instances:
-    print(f"Running {instance}")
-    runInstance(f"/data/{size}/{instance}")
+    runInstance(f"{path}/{instance}")
 
 def removeResults():
   pwd = os.getcwd()
@@ -43,7 +43,7 @@ def main():
   while option != 0:
     print("---------------------------------")
     print("1 - Run instance")
-    print("2 - Run many instances")
+    print("2 - Run many instances in path")
     print("3 - Remove results")
     print("0 - Exit")
     try:
@@ -56,15 +56,7 @@ def main():
       path = input("Path: ")
       runInstance(path)
     elif option == 2:
-      print("1 - Pequeñas")
-      print("2 - Grandes")
-      size = input("Size: ")
-      if size == "1":
-        runAllInstances("pequenas")
-      elif size == "2":
-        runAllInstances("grandes")
-      else:
-        print("Invalid size")
+      runManyInstances(input("Path: "))
     elif option == 3:
       removeResults()
     elif option == 0:
