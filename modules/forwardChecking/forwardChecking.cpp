@@ -24,14 +24,17 @@ void ForwardChecking::printDistanceMatrix() {
   distance->print();
 }
 
-void ForwardChecking::printResult() {
-  cout << "Cost: " << result->cost << endl;
-  cout << "Time: " << result->time << endl;
-  cout << "Assignment: ";
-  for (auto i: result->assignment) {
+void printVector(vector<int> vec){
+  for(auto i: vec){
     cout << i << " ";
   }
   cout << endl;
+}
+
+void ForwardChecking::printResult(double time) {
+  cout << result->cost << " " << time << endl;
+  cout << size << endl;
+  printVector(result->assignment);
 }
 
 vector<int> initializeDomains(int size, bool range = true ) {
@@ -66,12 +69,6 @@ vector<int> getRemainingLocations(vector<int> currentAssignment){
   return remainingLocations;
 }
 
-void printVector(vector<int> vec){
-  for(auto i: vec){
-    cout << i << " ";
-  }
-  cout << endl;
-}
 
 int computeCost(vector<int> assigned, Matrix* flow, Matrix* distance){
   int cost = 0;
@@ -171,34 +168,3 @@ void ForwardChecking::setDistance(Matrix* distance) {
 int ForwardChecking::getCost(int row, int col) {
   return costMatrix->getElement(row, col);
 }
-
-
-
-  // for(auto i: locations){
-  //   vector<int> currentAssignment = {i};
-  //   vector<int> leftLocations = getAvailableLocations(locations, currentAssignment);
-
-  //   for(auto j: leftLocations){
-  //     vector<int> availableLocations = getAvailableLocations(locations, currentAssignment);
-  //     currentCost = getCost(i, j);
-  
-  //     int tmpMinCost = 999999999;
-  //     int tmpMinIndex = -1;
-  //     for(auto k: availableLocations){
-  //       if(getCost(i, k) < tmpMinCost){
-  //         tmpMinCost = getCost(i, k);
-  //         tmpMinIndex = k;
-  //       }
-  //     }
-  //     currentCost += tmpMinCost;
-  //     currentAssignment.push_back(tmpMinIndex);
-  //   }
-
-  //   if(currentCost < minCost){
-  //     minCost = currentCost;
-  //     result->assignment = currentAssignment;
-  //   }
-  // }
-
-  // result->cost = minCost;
-  // this->result = result;

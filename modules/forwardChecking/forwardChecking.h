@@ -16,7 +16,7 @@ class ForwardChecking {
     ~ForwardChecking();
     void printFlowMatrix();
     void printDistanceMatrix();
-    void printResult();
+    void printResult(double time);
     void solve();
 
     // setters
