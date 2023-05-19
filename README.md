@@ -7,7 +7,7 @@
 ```bash
 make run
 ```
-esto ejecutará el script de python `run.py` y te mostrará un menu con el que podrás interactuar. Las opciones que te piden un path, esperan que lo ingreses relativo al directorio actual. Por ejemplo, si quisieras entregar el path al archivo matrix.cpp deberías entregar `/modules/matrix/matrix.cpp`. En el caso, de que quieras ejecutar varias instancias dentro de un directorio, dicho directorio tambien debe estar en el directorio actual, es decir al mismo nivel que main.cpp, ejemplo: `/data/pequenas`
+esto ejecutará el script de python `run.py` y te mostrará un menu con el que podrás interactuar. Las opciones que te piden un path, esperan que lo ingreses relativo al directorio actual. Por ejemplo, si quisieras entregar el path al archivo matrix.cpp deberías entregar `/modules/matrix/matrix.cpp`. En el caso, de que quieras ejecutar varias instancias dentro de un directorio, dicho directorio tambien debe estar en el directorio actual, es decir al mismo nivel que main.cpp, ejemplo: `/data/pequenas`. Por defecto, todos los resultados generados en esta opción se almacenarán dentro del directorio results.
 
 ### Ejecución Normal
 1. Para compilar los archivos
