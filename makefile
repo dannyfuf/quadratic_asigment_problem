@@ -5,6 +5,9 @@ SRCS=$(shell find $(SRCDIR) -name '*.cpp')
 OBJS=$(SRCS:.cpp=.o)
 EXEC=main
 
+make run: $(EXEC)
+	python3 ./run.py
+
 all: $(EXEC)
 
 $(EXEC): $(filter-out main.o, $(OBJS)) main.o
