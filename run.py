@@ -36,6 +36,9 @@ def removeResults():
 
 def main():
   makeAll()
+  if not os.path.isdir("results"):
+    os.mkdir("results")
+
   option  = -1
   while option != 0:
     print("---------------------------------")
